@@ -22,10 +22,10 @@ app.use(json());
 app.use(logger());
 
 // 静态化后的目录可以直接访问，例如：http://localhost:3000/stylesheets/style.css
-app.use(require('koa-static')(__dirname + '/public'));
+app.use(require('koa-static')(__dirname + '/src/public'));
 
 app.use(
-  views(__dirname + '/views', {
+  views(__dirname + '/src/views', {
     extension: 'ejs',
   })
 );
