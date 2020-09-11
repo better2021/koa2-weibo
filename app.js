@@ -5,8 +5,11 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
+const session = require('koa-generic-session');
+const redisStore = require('koa-redis');
 
 const { isProd } = require('./src/utils/env');
+const { REDIS_CONF } = require('./src/conf/db');
 
 // 路由注册
 const index = require('./src/routes/index');
@@ -37,6 +40,23 @@ app.use(require('koa-static')(__dirname + '/src/public'));
 app.use(
   views(__dirname + '/src/views', {
     extension: 'ejs',
+  })
+);
+
+// session 配置
+app.keys = ['UIsdf_*1212#s'];
+app.use(
+  session({
+    key: 'weibo.sid', // cookie name 默认为 koa.sid
+    prefix: 'weibo:sess:', // redis key 的前缀，默认是 koa:sess:
+    cookie: {
+      path: '/', // `/`表示所有地址
+      httpOnly: true, // 为true时表示只能通过服务端去改cookie
+      maxAge: 24 * 60 * 60 * 1000, //过期时间单位ms
+    },
+    store: redisStore({
+      all: `${REDIS_CONF.host}:${REDIS_CONF.port}`,
+    }),
   })
 );
 
