@@ -8,13 +8,14 @@ const logger = require('koa-logger');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
 
-const { isProd } = require('./src/utils/env');
-const { REDIS_CONF } = require('./src/conf/db');
+const { isProd } = require('./utils/env');
+const { REDIS_CONF } = require('./conf/db');
 
-// 路由注册
-const index = require('./src/routes/index');
-const users = require('./src/routes/users');
-const errorViewRouter = require('./src/routes/view/error');
+// 路由引用
+const index = require('./routes/index');
+const userViewRouter = require('./routes/view/user');
+const userAPIRouter = require('./routes/api/user');
+const errorViewRouter = require('./routes/view/error');
 
 // error handler
 let onerrorConf = {};
@@ -35,10 +36,10 @@ app.use(json());
 app.use(logger());
 
 // 静态化后的目录可以直接访问，例如：http://localhost:3000/stylesheets/style.css
-app.use(require('koa-static')(__dirname + '/src/public'));
+app.use(require('koa-static')(__dirname + '/public'));
 
 app.use(
-  views(__dirname + '/src/views', {
+  views(__dirname + '/views', {
     extension: 'ejs',
   })
 );
@@ -68,10 +69,10 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
-// routes
-
+// routes 路由注册
 app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
+app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods());
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()); // 404的路由要注册在最底部
 
 // error-handling
