@@ -2,7 +2,7 @@
  * @description josn schema 验证中间件
  */
 
-const { ErrorModel, ErrorMolde } = require('../model/ResModel');
+const { ErrorMolde } = require('../model/ResModel');
 const { jsonSchemaFileInfo } = require('../model/ErrorInfo');
 /**
  *  josn schema 验证中间件
