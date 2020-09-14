@@ -2,8 +2,13 @@
  * @description user 的控制层
  */
 
-const { getUserInfo } = require('../service/user');
+const { getUserInfo, createUser } = require('../service/user');
 const { SuccessModel, ErrorMolde } = require('../model/ResModel');
+const {
+  registerUserNameNotExistInfo,
+  registerUserNameExistInfo,
+  registerFailInfo,
+} = require('../model/ErrorInfo');
 
 /**
  * 用户名是否存在
@@ -15,13 +20,37 @@ async function isExist(userName) {
   if (!userInfo) {
     return new SuccessModel(userInfo);
   } else {
-    return new ErrorMolde({
-      errno: 1003,
-      message: '用户已存在',
+    return new ErrorMolde(registerUserNameNotExistInfo);
+  }
+}
+
+/**
+ * 注册
+ * @param {string} userName
+ * @param {string} password
+ * @param {number} gender 性别(1 男，2 女 ，3 保密)
+ */
+async function register({ userName, password, gender }) {
+  const userInfo = await getUserInfo(userName);
+  if (userInfo) {
+    // 用户名已存在
+    return ErrorMolde(registerUserNameExistInfo);
+  }
+
+  try {
+    await createUser({
+      userName,
+      password,
+      gender,
     });
+    return new SuccessModel();
+  } catch (err) {
+    console.error(err.message, err.stack);
+    return new ErrorMolde(registerFailInfo);
   }
 }
 
 module.exports = {
   isExist,
+  register,
 };

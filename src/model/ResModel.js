@@ -24,7 +24,7 @@ class SuccessModel extends BaseModel {
   constructor(data = {}) {
     super({
       errno: 0,
-      message: '用户名可用',
+      message: '用户名未存在',
       data,
     });
   }

@@ -6,7 +6,7 @@ router.get('/', async (ctx, next) => {
     msg: '你好',
     name: 'xiaoming',
     isMe: true,
-    blogList: [
+    blogData: [
       {
         id: 1,
         title: 'aaa',
