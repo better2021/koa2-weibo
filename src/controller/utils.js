@@ -5,8 +5,16 @@ const fse = require('fs-extra');
 const path = require('path');
 const { ErrorMolde, SuccessModel } = require('../model/ResModel');
 const { uploadFileSizeFailInfo } = require('../model/ErrorInfo');
+// 存储目录
 const DIST_FOLDER_PATH = path.join(__dirname, '..', '..', 'uploadFiles');
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB 5兆
+
+// 是否需要创建目录
+fse.pathExists(DIST_FOLDER_PATH).then((exist) => {
+  if (!exist) {
+    fse.ensureDir(DIST_FOLDER_PATH);
+  }
+});
 
 /**
  * 保存文件
