@@ -1,8 +1,12 @@
 /**
  * @description 常量集合
+ * @author 双越老师
  */
 
 module.exports = {
-  DEFAULT_PICTURE:
-    'https://i.pinimg.com/originals/b6/9c/e8/b69ce8c466a2e8678ac7bc7fb879f1d9.png',
-};
+    DEFAULT_PICTURE: 'https://dwz.cn/rnTnftZs',
+    PAGE_SIZE: 5,
+
+    // 正则表达式，匹配 '@昵称 - userName'
+    REG_FOR_AT_WHO: /@(.+?)\s-\s(\w+?)\b/g
+}

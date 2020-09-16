@@ -1,23 +1,21 @@
 /**
- * @deprecated 同步数据库
+ * @description sequelize 同步数据库
+ * @author 双越老师
  */
 
-const seq = require('./seq');
+const seq = require('./seq')
 
-require('./model/index');
+require('./model/index')
 
 // 测试连接
-seq
-  .authenticate()
-  .then(() => {
-    console.log('auth ok');
-  })
-  .catch(() => {
-    console.log('auth err');
-  });
+seq.authenticate().then(() => {
+    console.log('auth ok')
+}).catch(() => {
+    console.log('auth err')
+})
 
 // 执行同步
 seq.sync({ force: true }).then(() => {
-  console.log('sunc ok');
-  process.exit();
-});
+    console.log('sync ok')
+    process.exit()
+})

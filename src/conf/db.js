@@ -1,6 +1,6 @@
 /**
  * @description 存储配置
- * @time 2020/09/08
+ * @author 双越老师
  */
 
 const { isProd } = require('../utils/env');
@@ -19,14 +19,14 @@ let MYSQL_CONF = {
 };
 
 if (isProd) {
-  // 线上的 redis 配置
   REDIS_CONF = {
+    // 线上的 redis 配置
     port: 6379,
     host: '127.0.0.1',
   };
 
-  // 线上的 mysql 配置
   MYSQL_CONF = {
+    // 线上的 mysql 配置
     host: 'localhost',
     user: 'root',
     password: '709463253',
